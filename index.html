@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+/* Full Page Layout */
+.fullbody {
+    display: flex;
+    height: 100vh;
+}
+
+/* Left Section (Form Container) */
+.left {
+    flex: 1;
+    background-color: rgba(70, 123, 192, 0.975);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.create-group {
+    width: 100%;
+    max-width: 450px;
+    padding: 30px;
+    background: rgba(1, 0, 13, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+/* Heading */
+.create {
+    font-size: 36px;
+    font-weight: 500;
+    color: black;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Input Fields */
+.firstlast {
+    display: flex;
+    gap: 10px;
+}
+
+.firstlast input,
+.email,
+.password {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background: #f3f3f4;
+    color: rgb(183, 178, 178);
+    font-size: 16px;
+    outline: none;
+    border: solid black 1px;
+}
+
+.emailpassword {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.firstname::placeholder,
+.lastname::placeholder,
+.email::placeholder,
+.password::placeholder {
+    color: #b5b5b5;
+    font-size: 14px;
+}
+
+/* Checkbox */
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.checkbox label {
+    color: #b5b5b5;
+    font-size: 14px;
+}
+
+/* Submit Button */
+.submit {
+    width: 100%;
+    height: 45px;
+    background: rgb(69, 125, 230);
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+
+.submit:hover {
+    background: rgb(4, 113, 222);
+}
+
+/* Right Section (Image Background) */
+.right {
+    flex: 1;
+    background-image: url('../prescription.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50px 50px;
+}
+
+.create-group{
+    background-color:white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .fullbody {
+        flex-direction: column;
+    }
+    
+    .right {
+        height: 40vh;
+    }
+
+    .left {
+        height: 60vh;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+<div class="fullbody">
+    <div class="right"></div>
+    <div class="left">
+        <div class="create-group">
+            <h1 class="create">Create an account</h1>
+            <div class="firstlast">
+                <input type="text" placeholder="First name" class="firstname">
+                <input type="text" placeholder="Last name" class="lastname">
+            </div>
+            <div class="emailpassword">
+                <input type="email" placeholder="Email" class="email">
+                <input type="password" placeholder="Enter your password" class="password">
+            </div>
+            <div class="checkbox">
+                <input type="checkbox" id="terms">
+                <label for="terms" style="color: #a59d9d;" class="terms">I agree to the terms and conditions</label>
+            </div>
+            <div class="create">
+                <button class="submit">Create account</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const email=document.getElementsByClassName("email")[0];
+    const password=document.getElementsByClassName("password")[0];
+    const submit=document.getElementsByClassName("submit")[0];
+
+    submit.addEventListener("click",async()=>{
+        if(email.value==""||password.value==""){
+            alert("Please fill all the required fields");
+        }else{
+            const response=await fetch("http://localhost:5000/register",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    username:email.value,
+                    password:password.value
+                })
+            });
+        
+    const result=await response.json();
+    if(response.ok){
+        window.location.href="homepage.html";
+    }else{
+        alert("Account creation failed");
+    }
+    }
+    })
+</script>
+</body>
+</html>
